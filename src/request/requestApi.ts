@@ -11,19 +11,33 @@ import qs from "qs";
 const getBanner = async () => {
     return await request.get(httpUrl.banner);
 }
-// 用户登录
-const login = async (params) => {
-    return await request.post<string>(httpUrl.login, qs.stringify(params));
-}
-// ---------------------------------------------------------------------------------------------------------------------------------------
 
 const handleError = (err: any) => {
     // console.log("请求错误", err);
     throw err;
 }
+// ---------------------------------------------------------------------------------------------------------------------------------------
+// 用户登录
+const login = async (params) => {
+    return await request.post<string>(httpUrl.login, qs.stringify(params));
+}
+
+
+//管理端获取所有报名用户接口
+const getAllUserInfo = async() => {
+    return await request.get(httpUrl.getAllUserInfo)
+}
+// 管理端批量处理用户通过或淘汰接口
+const updateUserStatus = async(params) => {
+    return await request.post(httpUrl.updateUserStatus,qs.stringify(params))
+}
+
+
 
 export {
     getBanner,
     login,
-    handleError
+    handleError,
+    getAllUserInfo  ,
+    updateUserStatus
 }
