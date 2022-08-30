@@ -10,6 +10,8 @@ const props = defineProps({
     data: Object
 })
 
+
+
 interface UserInfoType {
     id: number
     introduction: string
@@ -18,8 +20,7 @@ interface UserInfoType {
     major: string
     institute: string
     group: boolean
-    studentId: string
-        
+    studentId: string   
 }
 const UserInfo: UserInfoType = props.data as UserInfoType
 
@@ -59,6 +60,10 @@ function valuechange(checkvalue) {
 }
 
 
+function detailButtonClick() {
+    store.commit("ConfigNowstudentId",UserInfo.studentId)
+}
+
 </script>
 
 <template>
@@ -72,7 +77,9 @@ function valuechange(checkvalue) {
     <el-col :span="3"><div class="grid-content ep-bg-purple-light" />
     <el-checkbox v-model="checked1" label="勾选" size="large" border @change="valuechange" class="checkbutton"/>
     </el-col>
-    <el-col :span="3"><div class="grid-content ep-bg-purple-light" /><el-button type="primary" class="infobutton" :studentId="UserInfo.studentId">详细信息</el-button></el-col>
+    <el-col :span="3"><div class="grid-content ep-bg-purple-light" /><el-button type="primary" class="infobutton">
+     <router-link to="/backPage/detailinfo" class="detailbutton"  @click="detailButtonClick">详细信息</router-link> 
+    </el-button></el-col>
   </el-row>
 </div>
 </template>
@@ -84,11 +91,21 @@ function valuechange(checkvalue) {
 }
 .infobutton {
     margin-top: -3px;
+    width: 80px;
+    height: 33px;
 }
 
 .checkbutton {
     margin-top: -8px;
 }
+.detailbutton {
+    width: 88px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    color: white;
+}
+
 .el-row {
   margin-bottom: 20px;
 }

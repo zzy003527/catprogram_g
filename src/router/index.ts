@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import backPage from "../views/backPage.vue"
 import Viewsighup from '../views/ViewSighup/viewsighup.vue'
-
+import detailInfo from "../views/detailInfo/detailInfo.vue"
 
 const routes: Array<RouteRecordRaw> = [
     // 根路径重定向
@@ -20,6 +20,11 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: 'viewsighup',
                 component: Viewsighup
+            },
+            // 用户详细信息页面
+            {
+                path: "detailinfo",
+                component: detailInfo
             }
         ]
     },

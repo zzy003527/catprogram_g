@@ -32,12 +32,29 @@ const updateUserStatus = async(params) => {
     return await request.post(httpUrl.updateUserStatus,qs.stringify(params))
 }
 
+// 评论和评分接口
+const review = async(params) => {
+    return await request.post(httpUrl.review,qs.stringify(params))
+}
+
+// 修改或删除评论和评分接口
+const updateAssessment = async(params) => {
+    return await request.post(httpUrl.updateAssessment,qs.stringify(params))
+}
+
+//退出登录接口
+const logout = async() => {
+    return await request.post(httpUrl.logout)
+}
 
 
 export {
     getBanner,
     login,
     handleError,
-    getAllUserInfo  ,
-    updateUserStatus
+    getAllUserInfo,
+    updateUserStatus,
+    review,
+    updateAssessment,
+    logout
 }

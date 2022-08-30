@@ -34,8 +34,20 @@ export default createStore({
     // 学号搜索框的数据
     StudentidInput: '',
     // 姓名搜索框的数据
-    NameInput: ''
-    // ---------------------------------------------------
+    NameInput: '',
+    // ------------------------用户详细信息页面-----------------------
+    //点击进入的当前用户的学号
+    NowstudentId: '',
+    // 当前管理员用户是否写过test1
+    AdminTest1: false,
+    // 当前管理员用户是否写过test2
+    AdminTest2: false,
+    // 当前管理员用户是否写过test3
+    AdminTest3: false,
+    // 当前管理员用户是否写过test4
+    AdminTest4: false,
+    // 判断是否显示修改和删除按钮的字段
+    DisplayButton: false
   },
   getters: {
     // 渲染到查看报名人数页面的数据
@@ -114,8 +126,32 @@ export default createStore({
     // 修改姓名搜索框数据
     ConfigNameInput(state,value) {
       state.NameInput = value
-    }
-    // ---------------------------------------------------------------------
+    },
+    // ------------------------用户详细信息页面-----------------------
+    // 修改当前用户id
+    ConfigNowstudentId(state,value) {
+      state.NowstudentId = value
+    },
+    // 修改当前管理员是否评论test1
+    ConfigAdminTest1(state,value) {
+      state.AdminTest1 = value
+    },
+    // 修改当前管理员是否评论test2
+    ConfigAdminTest2(state,value) {
+      state.AdminTest2 = value
+    },
+    // 修改当前管理员是否评论test3
+    ConfigAdminTest3(state,value) {
+      state.AdminTest3 = value
+    },
+    // 修改当前管理员是否评论test4
+    ConfigAdminTest4(state,value) {
+      state.AdminTest4 = value
+    },
+    // 修改判断是否显示修改和删除按钮的字段
+    ConfigDisplayButton(state,value) {
+      state.DisplayButton = value
+    },
   },
   actions: {
   },

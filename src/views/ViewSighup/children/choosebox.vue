@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { ElNotification } from 'element-plus'
 import { updateUserStatus,getAllUserInfo } from "../../../request/requestApi"
 
 // 获取vuex的store
@@ -17,6 +18,20 @@ const options = [
     label: '通过',
   }
 ]
+
+// 节流函数
+const debounce = (fn: Function, delay: number) :Function => {
+    let throttleTimer
+  return (...args: unknown[]) => {
+    if (throttleTimer) {
+      return;
+    }
+    throttleTimer = setTimeout(() => {
+      fn.apply(this, args);
+      throttleTimer = null;
+    }, delay);
+  }
+}
 
 // 批量选择通过或淘汰后的事件
 function sendmessage() {
@@ -58,31 +73,41 @@ function sendmessage() {
                }
                store.commit("addUserSetting",value)
             }
+            // 弹出框表示成功
+            ElNotification({
+              title: '修改成功',
+              message: '您已经修改成功',
+              type: 'success',
+            })
+             // 完成后重新获取数据渲染
+                getAllUserInfo().then((res)=> {
+                    store.commit("SetSighupInfo",res.obj) 
+                    // 设置一个对象管理更改用户进度（淘汰or通过）
+                    for(let i = 0;i < res.obj.length;i++) {
+                      let value = {
+                        key: res.obj[i].studentId,
+                        thevalue: false
+                      }
+                      store.commit("addUserSetting",value)
+                    }
+                })
         }).catch((err) => {
             console.log(err);
         })
     }
     
-    // 完成后重新获取数据渲染
-    getAllUserInfo().then((res)=> {
-        store.commit("SetSighupInfo",res.obj) 
-        // 设置一个对象管理更改用户进度（淘汰or通过）
-        for(let i = 0;i < res.obj.length;i++) {
-          let value = {
-            key: res.obj[i].studentId,
-            thevalue: false
-          }
-          store.commit("addUserSetting",value)
-        }
-    })
+   
 }
 
+const debounceSend = () => {
+  debounce(sendmessage, 200)();
+};
 
 </script>
 
 <template>
 <div id="choosebox">
-    <el-select v-model="chooseValue" clearable placeholder="选择面试阶段" size="large" class="chooseboxselect">
+    <el-select v-model="chooseValue" clearable placeholder="选择通过或淘汰" size="large" class="chooseboxselect">
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -90,7 +115,7 @@ function sendmessage() {
       :value="item.value"
     />
     </el-select>
-    <el-button type="primary" round size="large" @click="sendmessage">确定</el-button>
+    <el-button type="primary" round size="large" @click="debounceSend">确定</el-button>
 </div>
 </template>
 
