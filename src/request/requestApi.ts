@@ -11,16 +11,42 @@ import qs from "qs";
 const getBanner = async () => {
     return await request.get(httpUrl.banner);
 }
+
+const handleError = (err: any) => {
+    // console.log("请求错误", err);
+    throw err;
+}
+// ---------------------------------------------------------------------------------------------------------------------------------------
 // 用户登录
 const login = async (params) => {
     return await request.post<string>(httpUrl.login, qs.stringify(params));
 }
-// ---------------------------------------------------------------------------------------------------------------------------------------
 
-const handleError = (err: any) => {
-    console.log("请求错误", err);
-    throw err;
+
+//管理端获取所有报名用户接口
+const getAllUserInfo = async () => {
+    return await request.get(httpUrl.getAllUserInfo)
 }
+// 管理端批量处理用户通过或淘汰接口
+const updateUserStatus = async (params) => {
+    return await request.post(httpUrl.updateUserStatus, qs.stringify(params))
+}
+
+// 评论和评分接口
+const review = async (params) => {
+    return await request.post(httpUrl.review, qs.stringify(params))
+}
+
+// 修改或删除评论和评分接口
+const updateAssessment = async (params) => {
+    return await request.post(httpUrl.updateAssessment, qs.stringify(params))
+}
+
+//退出登录接口
+const logout = async () => {
+    return await request.post(httpUrl.logout)
+}
+
 const book = async (params) => {
     return await request.post<string>(httpUrl.book, qs.stringify(params));
 }
@@ -37,9 +63,13 @@ export {
     getBanner,
     login,
     handleError,
+    getAllUserInfo,
+    updateUserStatus,
+    review,
+    updateAssessment,
+    logout,
     book,
     addTime,
     changeNumRequest,
     deleteTime
-
 }
