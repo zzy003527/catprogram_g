@@ -6,10 +6,10 @@ const config = {
     // rootUrl: "http://106.52.239.206:8080"
 };
 
-const httpApi =  {
+const httpApi = {
     // 测试接口
     banner: config.rootUrl + 'home/banner', // banner
-    login: config.rootUrl + 'user/login', // 用户登录
+    login: config.rootUrl + '/cat/user/login', // 用户登录
     getAllUserInfo: config.rootUrl + '/cat/userInfo/getAllCandidate',   //管理端查询用户所有报名信息接口
     updateUserStatus: config.rootUrl + '/cat/userInfo/updateUserStatus',      //管理端批量处理用户通过或淘汰
     review: config.rootUrl + '/catuserInfo/review',                //评论和评分接口
