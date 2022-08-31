@@ -18,12 +18,28 @@ const login = async (params) => {
 // ---------------------------------------------------------------------------------------------------------------------------------------
 
 const handleError = (err: any) => {
-    // console.log("请求错误", err);
+    console.log("请求错误", err);
     throw err;
 }
-
+const book = async (params) => {
+    return await request.post<string>(httpUrl.book, qs.stringify(params));
+}
+const addTime = async (params) => {
+    return await request.post<string>(httpUrl.addTime, qs.stringify(params));
+}
+const changeNumRequest = async (params) => {
+    return await request.post<string>(httpUrl.changeNum, qs.stringify(params));
+}
+const deleteTime = async (params) => {
+    return await request.post<string>(httpUrl.deleteTime, qs.stringify(params));
+}
 export {
     getBanner,
     login,
-    handleError
+    handleError,
+    book,
+    addTime,
+    changeNumRequest,
+    deleteTime
+
 }
