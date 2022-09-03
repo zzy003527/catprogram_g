@@ -52,9 +52,9 @@ const onSubmit = () => {
 
   // 转换要提交的面试阶段（testId）
   let testId = ref(0)
-  if(form.test === '面试') {
+  if(form.test === '笔试') {
     testId.value = 1
-  } else if(form.test === '笔试') {
+  } else if(form.test === '面试') {
     testId.value = 2
   } else if(form.test === '一轮考核') {
     testId.value = 3
@@ -99,14 +99,14 @@ const onSubmit = () => {
     // 判断当前管理员是否对某个阶段评论过
     if(testId.value === 1 && store.state.AdminTest1) {
       ElNotification({
-          title: '您已对此用户的"面试"评价过了',
-          message: '请选择选择修改评价或者对其他面试阶段进行评价',
+          title: '您已对此用户的"笔试"评价过了',
+          message: '请选择选择修改评价或者对其他笔试阶段进行评价',
           type: 'warning',
         })
         return
     } else if(testId.value === 2 && store.state.AdminTest2) {
       ElNotification({
-          title: '您已对此用户的"笔试"评价过了',
+          title: '您已对此用户的"面试"评价过了',
           message: '请选择选择修改评价或者对其他面试阶段进行评价',
           type: 'warning',
         })
@@ -126,20 +126,17 @@ const onSubmit = () => {
         })
         return
     } else {
-      review(params).then((res) => {
+      review(params).then(() => {
         ElNotification({
           title: '评价成功',
           message: '您已经评价成功',
           type: 'success',
         })
-          console.log(res);
         }).catch((err) => {
           console.log(err);
         })
     }
-    
   }
-  
 }
 
 const debounceSend = () => {
@@ -153,8 +150,8 @@ const debounceSend = () => {
     <el-form :model="form" label-width="120px">
     <el-form-item label="选择面试阶段">
       <el-select v-model="form.test" placeholder="请选择面试阶段">
-        <el-option label="面试" value="面试" />
         <el-option label="笔试" value="笔试" />
+        <el-option label="面试" value="面试" />
         <el-option label="一轮考核" value="一轮考核" />
         <el-option label="二轮考核" value="二轮考核" />
       </el-select>

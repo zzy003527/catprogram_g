@@ -17,8 +17,6 @@ const UserDetailInfo = store.getters.RenderSighup.filter((val) => {
 })
 
 
-
-
 // 声明router，用于编程式导航，相当于之前学的this.$router
 const router: Router = useRouter()
 // 页头返回前一页的事件

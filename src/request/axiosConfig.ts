@@ -8,15 +8,15 @@
  */
 //这是axios配置的ts文件 
 
-import axios, { AxiosRequestConfig,AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 // import axios from "axios"
 
 // 获取token
 let token = localStorage.getItem("token")
 
-    if(!token) {
-        token = sessionStorage.getItem("token")
-    }
+if (!token) {
+    token = sessionStorage.getItem("token")
+}
 
 // 创建axios的实例
 const service = axios.create({
@@ -34,12 +34,12 @@ service.interceptors.request.use((config: AxiosRequestConfig) => {
     let userToken = localStorage.getItem("token")
     if (userToken) { //判断token是否存在
         config.headers!.token = userToken;  //将token设置成请求头
-      }
-      return config;
-    },
+    }
+    return config;
+},
     (err: any) => {
         return Promise.reject(err)
-      },
+    },
 )
 
 

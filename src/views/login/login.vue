@@ -2,7 +2,7 @@
     <div h="auto" w="auto" m="20" class="table" :style="{
         boxShadow: `var(${getCssVarName('light')})`
     }">
-        <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="100px"
+        <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="48px"
             class="demo-ruleForm">
             <el-form-item label="账号" prop="studentNumber">
                 <el-input v-model="ruleForm.studentNumber" class="NumberInput" autocomplete="off" />
@@ -78,20 +78,18 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.validate((valid) => {
         if (valid) {
-            let logintest = login({
+            login({
                 studentId: ruleForm.studentNumber,
                 password: ruleForm.pass,
                 isSeven: checked1.value
             }).then((res) => {
-                console.log(res);
                 if (res.resultStatus != 200) {
                     failLogin(res.resultIns)
-
                 }
                 else {
                     sucessLogin()
                     store.state.dialogTableVisible = false
-                    localStorage.setItem('studentNumber', ruleForm.studentNumber);
+                    localStorage.setItem('adminId', res.id);
                     //登陆成功的时候根据是否勾选七天免登陆来判断把token存储到localstorage里面还是sessionstorage
                     if (checked1.value == true) {
                         localStorage.setItem('token', `${res.obj}`);
@@ -104,9 +102,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
                 return res
             })
                 .catch(handleError);
-            console.log("logintest", logintest);
         } else {
-            console.log('error submit!')
             return false
         }
     })
@@ -163,15 +159,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
     padding-bottom: 0;
     width: 440px;
     height: 251px;
-    background-image: url(/login.jpg);
     border-radius: 10px 10px 0 0;
-    background: right top no-repeat url(/login.jpg);
     background-size: 484px 296px;
 }
 
 .loginSubmit {
     width: 266px;
-    margin-top: 34px;
+    margin-top: 18px;
     border-radius: 149px !important;
 
 }

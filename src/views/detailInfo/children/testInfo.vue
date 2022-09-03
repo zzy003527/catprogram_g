@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // 引入所需方法
 import { useStore } from 'vuex'
-import { ref,reactive } from 'vue'
+import { ref,reactive,computed } from 'vue'
 import { ElMessage, ElMessageBox,ElNotification } from 'element-plus'
 import { updateAssessment } from '../../../request/requestApi'
 
@@ -45,9 +45,10 @@ const UserTestInfo: UserTestInfoType = props.info as UserTestInfoType
   }
 
 // 判断是否显示删除和修改按钮
-if(UserTestInfo.adminId === Number(localStorage.getItem("adminId"))) {
-  store.commit("ConfigDisplayButton",true)
-}
+let displayButton = computed(() => {
+  return UserTestInfo.adminId === Number(localStorage.getItem("adminId"))
+})
+
 
 // 判断当前管理员是否评论过当前用户，并将状态存入vuex
 if(UserTestInfo.testId === 1 && UserTestInfo.adminId === Number(localStorage.getItem("adminId"))) {
@@ -82,29 +83,29 @@ const deleteReview = () => {
         review: UserTestInfo.review,
         studentId: UserTestInfo.studentId,
         testId: UserTestInfo.testId,
-        adminId: Number(localStorage.getItem("adminId"))
-      }
-      const deleteParams = {
-        score: score,
+        id: UserTestInfo.id,
         flag: false
       }
       // 发送请求
-      updateAssessment(deleteParams).then((res) => {
-        console.log(res);
+      updateAssessment(score).then((res) => {
+        if(res.resultStatus !== '200') {
+          ElMessage({
+            type: 'error',
+            message: '删除失败',
+          })
+        } else {
+          // 弹出框提示
+          ElMessage({
+            type: 'success',
+            message: '删除成功',
+          })
+        }
       }).catch((err) => {
         console.log(err);
       })
-      // 弹出框提示
-      ElMessage({
-        type: 'success',
-        message: '删除成功',
-      })
     })
     .catch(() => {
-      ElMessage({
-        type: 'info',
-        message: '删除失败',
-      })
+      
     })
 }
 
@@ -133,25 +134,28 @@ const configReview = () => {
         review: form.review,
         studentId: UserTestInfo.studentId,
         testId: UserTestInfo.testId,
-        adminId: Number(localStorage.getItem("adminId"))
-      }
-      const configParams = {
-        score: score,
+        id: UserTestInfo.id,
         flag: true
       }
       // 发送请求
-      updateAssessment(configParams).then((res) => {
-        ElNotification({
-          title: '修改成功',
-          message: '您已经修改成功',
-          type: 'success',
-        })
-        // 关闭弹出框
-        dialogFormVisible.value = false
-        // 将数据置零
-        form.grade = 0
-        form.review = ''
-        console.log(res);
+      updateAssessment(score).then((res) => {
+        if(res.resultStatus !== '200') {
+          ElMessage({
+            type: 'error',
+            message: '修改失败',
+          })
+        } else {
+          // 弹出框提示
+          ElMessage({
+            type: 'success',
+            message: '修改成功',
+          })
+          // 关闭弹出框
+          dialogFormVisible.value = false
+          // 将数据置零
+          form.grade = 0
+          form.review = ''
+        }
       }).catch((err) => {
         console.log(err);
       })
@@ -170,11 +174,11 @@ const configReviewSend = () => {
 
 <template>
   <div id="testInfo">
-    <div class="name">&nbsp;&nbsp;&nbsp;{{ UserTestInfo.adminId }}：</div>
+    <div class="name">&nbsp;&nbsp;&nbsp;{{ UserTestInfo.adminName }}：</div>
     <div>评论：{{ UserTestInfo.review }}</div>
     <div>评分: {{ UserTestInfo.grade }}</div>
-    <el-button type="warning" round class="testinfobuttonOne" @click="dialogFormVisible = true" v-if="store.state.DisplayButton">修改</el-button>
-    <el-button type="danger" round class="testinfobuttonTwo" @click="deleteReviewSend" v-if="store.state.DisplayButton">删除</el-button>
+    <el-button type="warning" round class="testinfobuttonOne" @click="dialogFormVisible = true" v-if="displayButton">修改</el-button>
+    <el-button type="danger" round class="testinfobuttonTwo" @click="deleteReviewSend" v-if="displayButton">删除</el-button>
     <el-dialog v-model="dialogFormVisible" title="修改评价和评分">
     <el-form :model="form" label-width="120px">
     <el-form-item label="填写评价">

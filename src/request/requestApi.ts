@@ -39,7 +39,7 @@ const review = async (params) => {
 
 // 修改或删除评论和评分接口
 const updateAssessment = async (params) => {
-    return await request.post(httpUrl.updateAssessment, qs.stringify(params))
+    return await request.post(httpUrl.updateAssessment, params)
 }
 
 //退出登录接口
@@ -48,7 +48,7 @@ const logout = async () => {
 }
 
 const book = async (params) => {
-    return await request.post<string>(httpUrl.book, qs.stringify(params));
+    return await request.post<string>(httpUrl.book, params);
 }
 const addTime = async (params) => {
     return await request.post<string>(httpUrl.addTime, qs.stringify(params));
