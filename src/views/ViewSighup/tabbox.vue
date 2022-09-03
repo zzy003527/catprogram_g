@@ -1,17 +1,15 @@
 <template>
   <div id="tabbox">
-  <el-menu
-    :default-active="activeIndex"
-    class="el-menu-demo"
-    mode="horizontal"
-    background-color="#545c64"
-    text-color="#fff"
-    active-text-color="#ffd04b"
-  >
-    <el-menu-item index="1"><router-link to="/backPage/viewsighup">查看报名人数</router-link></el-menu-item>
-    <el-menu-item index="2"><router-link to="/backPage/viewsighup">预约面试</router-link></el-menu-item>
-    <el-button type="info" class="logoutButton" @click="logoutSend">退出登录</el-button>
-  </el-menu>
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
+      text-color="#fff" active-text-color="#ffd04b">
+      <el-menu-item index="1">
+        <router-link to="/backPage/viewsighup">查看报名人数</router-link>
+      </el-menu-item>
+      <el-menu-item index="2">
+        <router-link to="/backPage/book">预约面试</router-link>
+      </el-menu-item>
+      <el-button type="info" class="logoutButton" @click="logoutSend">退出登录</el-button>
+    </el-menu>
   </div>
 </template>
 
@@ -22,7 +20,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { logout } from "../../request/requestApi"
 
 // 引入所需方法
-import { Router, useRouter } from 'vue-router' 
+import { Router, useRouter } from 'vue-router'
 
 // 声明router，用于编程式导航，相当于之前学的this.$router
 const router: Router = useRouter()
@@ -73,14 +71,14 @@ const logoutSend = () => {
 
 <style>
 #tabbox {
-    position: fixed;
-    left: -25px;
-    top: 0;
-    height: 39px;
-    width: 1550px;
-    background-color: #f5f5f5;
-    padding-left: 25px;
-    z-index: 100;
+  position: fixed;
+  left: -25px;
+  top: 0;
+  height: 39px;
+  width: 1550px;
+  background-color: #f5f5f5;
+  padding-left: 25px;
+  z-index: 100;
 }
 
 .logoutButton {
@@ -91,7 +89,7 @@ const logoutSend = () => {
   right: 50px;
 }
 
-.demo-tabs > .el-tabs__content {
+.demo-tabs>.el-tabs__content {
   padding: 0px;
   color: #6b778c;
   font-size: 32px;

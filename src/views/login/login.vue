@@ -2,7 +2,7 @@
     <div h="auto" w="auto" m="20" class="table" :style="{
         boxShadow: `var(${getCssVarName('light')})`
     }">
-        <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="100px"
+        <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" label-width="48px"
             class="demo-ruleForm">
             <el-form-item label="账号" prop="studentNumber">
                 <el-input v-model="ruleForm.studentNumber" class="NumberInput" autocomplete="off" />
@@ -171,7 +171,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
 .loginSubmit {
     width: 266px;
-    margin-top: 34px;
+    margin-top: 18px;
     border-radius: 149px !important;
 
 }

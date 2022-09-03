@@ -19,7 +19,7 @@ const handleError = (err: any) => {
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // 用户登录
 const login = async (params) => {
-    return await request.post<string>(httpUrl.login, qs.stringify(params));
+    return await request.post<string>(httpUrl.login, params);
 }
 
 
@@ -48,7 +48,7 @@ const logout = async () => {
 }
 
 const book = async (params) => {
-    return await request.post<string>(httpUrl.book, qs.stringify(params));
+    return await request.post<string>(httpUrl.book, params);
 }
 const addTime = async (params) => {
     return await request.post<string>(httpUrl.addTime, qs.stringify(params));
