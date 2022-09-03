@@ -60,7 +60,8 @@ function sendmessage() {
     // 如果有'淘汰'或者'通过'，发送请求
     if(chooseValue.value) {
         const params = store.state.SendUserInfo
-        updateUserStatus(params).then(() => {
+        updateUserStatus(params).then((res) => {
+           console.log(res);
             // 发送成功之后将选择框置空
             chooseValue.value = ''
             // 置空发送的数据

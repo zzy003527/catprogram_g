@@ -53,14 +53,15 @@ const goBack = () => {
 #detailInfo {
     position: relative;
     top: -180px;
-    width: 1013px;
+    width: 100%;
     margin: 0 auto;
 }
 #theheader {
     position: fixed;
     top: 0px;
-    left: 10px;
-    width: 1500px;
+    left: 0px;
+    width: 100%;
+    height: 39px;
     padding: 10px;
     background-color: #f5f5f5;
     border-bottom: 1px solid #999;

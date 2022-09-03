@@ -76,7 +76,7 @@ const onSubmit = () => {
     review: form.review,
     studentId: UserDetailInfo[0].studentId,
     testId: testId.value,
-    adminId: Number(localStorage.getItem("adminId"))
+    // adminId: Number(localStorage.getItem("adminId"))
   }
   
 //   缺少面试阶段和评价的提示

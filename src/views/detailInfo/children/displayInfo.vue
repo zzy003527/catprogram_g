@@ -64,8 +64,9 @@ div{
 }
 #cardbox {
     position: relative;
-    top: 195px;
-    left: 18%;
+    top: 228px;
+    left: 50%;
+    transform: translate(-34%,0);
 }
 .card-header {
   display: flex;

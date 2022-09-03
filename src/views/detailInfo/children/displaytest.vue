@@ -62,6 +62,8 @@ const UserDetailInfo: UserDetailInfoType = props.info as UserDetailInfoType
   position: relative;
   top: 255px;
   left: 0%;
+  width: 1012px;
+  height: 521px;
 }
 .infinite-list {
   height: 450px;
