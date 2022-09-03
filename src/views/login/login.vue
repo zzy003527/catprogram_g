@@ -99,7 +99,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
                     else {
                         sessionStorage.setItem('token', `${res.obj}`);
                     }
-                    router.push('/backPage/viewsighup')
+                    router.push('/backPage')
                 }
                 return res
             })

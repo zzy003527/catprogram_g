@@ -19,7 +19,7 @@ const handleError = (err: any) => {
 // ---------------------------------------------------------------------------------------------------------------------------------------
 // 用户登录
 const login = async (params) => {
-    return await request.post<string>(httpUrl.login, qs.stringify(params));
+    return await request.post<string>(httpUrl.login, params);
 }
 
 

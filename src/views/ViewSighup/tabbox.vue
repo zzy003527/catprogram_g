@@ -1,15 +1,14 @@
 <template>
   <div id="tabbox">
   <el-menu
-    :default-active="activeIndex"
     class="el-menu-demo"
     mode="horizontal"
     background-color="#545c64"
     text-color="#fff"
-    active-text-color="#ffd04b"
+    active-text-color="#ffd04b" 
   >
     <el-menu-item index="1"><router-link to="/backPage/viewsighup">查看报名人数</router-link></el-menu-item>
-    <el-menu-item index="2"><router-link to="/backPage/viewsighup">预约面试</router-link></el-menu-item>
+    <el-menu-item index="2"><router-link to="/backPage/book">预约面试</router-link></el-menu-item>
     <el-button type="info" class="logoutButton" @click="logoutSend">退出登录</el-button>
   </el-menu>
   </div>
@@ -17,7 +16,6 @@
 
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { logout } from "../../request/requestApi"
 
@@ -27,8 +25,8 @@ import { Router, useRouter } from 'vue-router'
 // 声明router，用于编程式导航，相当于之前学的this.$router
 const router: Router = useRouter()
 
-// 导航栏需要的
-const activeIndex = ref('1')
+
+
 
 // 退出登录按钮需要的
 const logoutSend = () => {

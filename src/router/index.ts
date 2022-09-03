@@ -3,11 +3,18 @@ import backPage from "../views/backPage.vue"
 import Viewsighup from '../views/ViewSighup/viewsighup.vue'
 import detailInfo from "../views/detailInfo/detailInfo.vue"
 import login from '../views/login/login.vue'
+import book from "../views/book/book.vue"
+
 const routes: Array<RouteRecordRaw> = [
     // 根路径重定向
     {
         path: '/',
-        redirect: '/backPage'
+        redirect: '/login'
+    },
+     // 登陆页面
+     {
+        path: '/login',
+        component: login
     },
     // 后台主页
     {
@@ -26,10 +33,10 @@ const routes: Array<RouteRecordRaw> = [
                 path: "detailinfo",
                 component: detailInfo
             },
-            // 登陆页面
+            // 预约面试
             {
-                path: 'login',
-                component: login
+                path: "book",
+                component: book
             }
         ]
     },
