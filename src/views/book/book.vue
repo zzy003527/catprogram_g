@@ -297,7 +297,7 @@ let bookUserListAll: bookUserListAllType = reactive({
 
 //调用获取预约人数的接口
 book({
-    'version': 1
+    'version': 2
 }).then((res) => {
     timeList(res, 1);
     if (res.resultStatus != 200) {
@@ -310,21 +310,21 @@ book({
 })
     .catch(handleError);
 book({
-    'version': 2
+    'version': 3
 }).then((res) => {
     timeList(res, 2);
     return res
 })
     .catch(handleError);
 book({
-    'version': 3
+    'version': 4
 }).then((res) => {
     timeList(res, 3);
     return res
 })
     .catch(handleError);
 book({
-    'version': 4
+    'version': 5
 }).then((res) => {
     timeList(res, 4);
     return res
