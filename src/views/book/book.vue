@@ -22,7 +22,7 @@
                                     </template>
                                     <div class="changeBookNum">
                                         <el-button type="primary"
-                                            @click="changeAvailableNumberFn(timeObj.time, '1', index)">
+                                            @click="changeAvailableNumberFn(timeObj.time, '1', index, timeObj.availableNumber)">
                                             修改预约人数
                                         </el-button>
                                         <span>已经预约的人数:{{ timeObj.number }} 可预约人数:{{ timeObj.availableNumber }}</span>
@@ -67,10 +67,10 @@
                                     </template>
                                     <div class="changeBookNum">
                                         <el-button type="primary"
-                                            @click="changeAvailableNumberFn(timeObj.time, '1', index)">
+                                            @click="changeAvailableNumberFn(timeObj.time, '1', index, timeObj.availableNumber)">
                                             修改预约人数
                                         </el-button>
-                                        <span>已经预约的人数:{{ timeObj.availableNumber }} 可预约人数:{{ timeObj.number }}</span>
+                                        <span>已经预约的人数:{{ timeObj.number }} 可预约人数:{{ timeObj.availableNumber }}</span>
                                     </div>
                                     <div class="demo-collapse-three">
                                         <el-collapse v-model="activeNames3" @change="handleChange3">
@@ -113,7 +113,7 @@
                                     </template>
                                     <div class="changeBookNum">
                                         <el-button type="primary"
-                                            @click="changeAvailableNumberFn(timeObj.time, '1', index)">
+                                            @click="changeAvailableNumberFn(timeObj.time, '1', index, timeObj.availableNumber)">
                                             修改预约人数
                                         </el-button>
                                         <span>已经预约的人数:{{ timeObj.number }} 可预约人数:{{ timeObj.availableNumber }}</span>
@@ -158,7 +158,7 @@
                                     </template>
                                     <div class="changeBookNum">
                                         <el-button type="primary"
-                                            @click="changeAvailableNumberFn(timeObj.time, '1', index)">
+                                            @click="changeAvailableNumberFn(timeObj.time, '1', index, timeObj.availableNumber)">
                                             修改预约人数
                                         </el-button>
                                         <span>已经预约的人数:{{ timeObj.number }} 可预约人数:{{ timeObj.availableNumber }}</span>
@@ -187,7 +187,7 @@
                 </el-collapse>
                 <el-dialog v-model="dialogVisible2" width="30%" draggable>
                     <div>修改预约人数</div>
-                    <el-input-number v-model="changeNum" :min="1" @change="handleChange" />
+                    <el-input-number v-model="changeNum" :min="miniNumber" @change="handleChange" />
                     <template #footer>
                         <span class="dialog-footer">
                             <el-button @click="dialogVisible2 = false">取消</el-button>
@@ -197,24 +197,32 @@
                 </el-dialog>
                 <div class="addBookTime">
 
-                    <el-dialog v-model="dialogVisible" width="30%" draggable>
+                    <el-dialog v-model="dialogVisible" width="30%" draggable center class="addDialog">
+                        <template #header>
+                            选择想要添加的时间
+                        </template>
 
-                        <span class="demonstration">选择想要添加的时间</span>
-                        <div class="block">
 
-                            <el-date-picker v-model="startTime" type="datetime" placeholder="选择开始时间"
-                                value-format="YYYY-MM-DD hh:mm:ss" format="YYYY/MM/DD hh:mm:ss"
+                        <div class="Font16 marginBottom10">选择日期：
+                            <el-date-picker v-model="startDate" type="date" placeholder="选择日期" value-format='YYYY-MM-DD'
                                 :disabledDate="disabledDate" />
-                            <el-date-picker v-model="endTime" type="datetime" placeholder="选择结束时间"
-                                value-format="YYYY-MM-DD hh:mm:ss" format="YYYY/MM/DD hh:mm:ss"
-                                :disabledDate="disabledDate2" />
                         </div>
-                        <div>可预约人数</div>
-                        <el-input-number v-model="addBookNum" :min="1" :max="100" />
+
+                        <div class="demo-time-range marginBottom10">
+                            <div class="Font16">选择时间范围：</div>
+                            <el-time-select v-model="startTime" :max-time="endTime" class="mr-4"
+                                placeholder="Start time" start="08:30" step="00:15" end="18:30" />
+                            <el-time-select v-model="endTime" :min-time="startTime" placeholder="End time" start="08:30"
+                                step="00:15" end="18:30" />
+                        </div>
+                        <div class="ChangeNumber">
+                            <div class="Font16">可预约人数：</div>
+                            <el-input-number v-model="addBookNum" :min="1" :max="100" />
+                        </div>
 
 
-                        <!-- <el-date-picker v-model="value2" type="datetimerange" range-separator="To"
-                                :disabledDate="disabledDate" start-placeholder="开始时间" end-placeholder="结束时间" /> -->
+
+
 
                         <template #footer>
                             <span class="dialog-footer">
@@ -292,6 +300,12 @@ book({
     'version': 1
 }).then((res) => {
     timeList(res, 1);
+    if (res.resultStatus != 200) {
+        ElMessage({
+            message: `${res.resultIns}`,
+            type: 'error'
+        })
+    }
     return res
 })
     .catch(handleError);
@@ -365,6 +379,7 @@ function timeList(bookMsg, version: number) {
     }
 }
 //添加预约时间提交按钮
+const startDate = ref('')
 const addBookNum = ref(1) //可预约的人数
 const startTime = ref('')
 const endTime = ref('')
@@ -379,39 +394,40 @@ function addTimeFn(version: number) {
     // 获取当前时间并且提交
     addTime({
         version: version,
-        time: `${startTime.value}~${endTime.value}`,
+        time: `${startDate.value} ${startTime.value}~${startDate.value} ${endTime.value}`,
         number: addBookNum.value
     }).then((res) => {
-        if(res.resultStatus !== '200') {
+        if (res.resultStatus !== '200') {
             ElMessage({
-            message: '添加时间失败',
-            type: 'error'
-          }) 
+                message: `${res.resultIns}`,
+                type: 'error'
+            })
         } else {
             let timeListItem = {
-            time: `${startTime.value}~${endTime.value}`,
-            id: 'newSubit',
-            number: 0,
-            availableNumber: addBookNum.value
-        };
-        if (version == 1) {
-            timeListAll.timeListOne.push(timeListItem)
-        } else if (version == 2) {
-            timeListAll.timeListTwo.push(timeListItem)
-        } else if (version == 3) {
-            timeListAll.timeListThree.push(timeListItem)
-        } else if (version == 4) {
-            timeListAll.timeListFour.push(timeListItem)
-        }
-        //添加完之后清空预约时间数据
-        startTime.value = ''
-        endTime.value = ''
-        addBookNum.value = 1
-        // 弹窗
-        ElMessage({
-            message: '添加时间成功',
-            type: 'success'
-          }) 
+                time: `${startDate.value} ${startTime.value}~${startDate.value} ${endTime.value}`,
+                id: 'newSubit',
+                number: 0,
+                availableNumber: addBookNum.value
+            };
+            if (version == 1) {
+                timeListAll.timeListOne.push(timeListItem)
+            } else if (version == 2) {
+                timeListAll.timeListTwo.push(timeListItem)
+            } else if (version == 3) {
+                timeListAll.timeListThree.push(timeListItem)
+            } else if (version == 4) {
+                timeListAll.timeListFour.push(timeListItem)
+            }
+            //添加完之后清空预约时间数据
+            startTime.value = ''
+            endTime.value = ''
+            addBookNum.value = 1
+            startDate.value = '';
+            // 弹窗
+            ElMessage({
+                message: '添加时间成功',
+                type: 'success'
+            })
         }
         return res
     })
@@ -421,9 +437,12 @@ function addTimeFn(version: number) {
 function addTimeFnCancel() {
     dialogVisible.value = false;
     //添加完之后清空预约时间数据
-    startTime.value = ''
-    endTime.value = ''
-    addBookNum.value = 1
+    startTime.value = '';
+    endTime.value = '';
+    addBookNum.value = 1;
+    startDate.value = '';
+
+
 }
 
 
@@ -434,10 +453,7 @@ function disabledDate(time) {
     return time.getTime() < Date.now() - 8.64e7;
 
 }
-function disabledDate2(time) {
-    return time.getTime() < new Date(startTime.value).getTime() - 8.64e7;
 
-}
 //修改预约人数
 const sucessBook = () => {
     ElMessage({
@@ -445,35 +461,52 @@ const sucessBook = () => {
         type: 'success',
     })
 }
+
+const miniNumber = ref(1)
 const dialogVisible2 = ref(false)
 const changeAvailableTime = ref('')
 const changeAvailableVersion = ref('')
 const changeNum = ref(1)
 const changeNumTimeListIndex = ref(1)
-function changeAvailableNumberFn(time: string, version: string, index: number) {
+function changeAvailableNumberFn(time: string, version: string, index: number, availableNumber: number) {
     dialogVisible2.value = true;
-    changeAvailableTime.value = time
-    changeAvailableVersion.value = version
-    changeNumTimeListIndex.value = index
+    changeAvailableTime.value = time;
+    changeAvailableVersion.value = version;
+    changeNumTimeListIndex.value = index;
+    miniNumber.value = availableNumber + 1;
+    changeNum.value = availableNumber + 1;
+    console.log(miniNumber.value);
+
 }
 function sureAvailableNumberFn() {
     dialogVisible2.value = false
+
     changeNumRequest({
         version: changeAvailableVersion.value,
         time: changeAvailableTime.value,
         number: changeNum.value
     }).then((res) => {
-        sucessBook()
-        if (changeAvailableVersion.value == '0') {
-            timeListAll.timeListOne[changeNumTimeListIndex.value].availableNumber = changeNum.value
-        } else if (changeAvailableVersion.value == '1') {
-            timeListAll.timeListTwo[changeNumTimeListIndex.value].availableNumber = changeNum.value
-        } else if (changeAvailableVersion.value == '2') {
-            timeListAll.timeListThree[changeNumTimeListIndex.value].availableNumber = changeNum.value
-        } else if (changeAvailableVersion.value == '3') {
-            timeListAll.timeListFour[changeNumTimeListIndex.value].availableNumber = changeNum.value
+        if (res.resultStatus == 200) {
+            sucessBook()
+
+            if (changeAvailableVersion.value == '1') {
+                timeListAll.timeListOne[changeNumTimeListIndex.value].availableNumber = changeNum.value
+            } else if (changeAvailableVersion.value == '2') {
+                timeListAll.timeListTwo[changeNumTimeListIndex.value].availableNumber = changeNum.value
+            } else if (changeAvailableVersion.value == '3') {
+                timeListAll.timeListThree[changeNumTimeListIndex.value].availableNumber = changeNum.value
+            } else if (changeAvailableVersion.value == '4') {
+                timeListAll.timeListFour[changeNumTimeListIndex.value].availableNumber = changeNum.value
+            }
+
         }
-        changeNumTimeListIndex.value
+        else {
+            ElMessage({
+                message: `${res.resultIns}`,
+                type: 'error'
+            })
+        }
+        changeNum.value = 1;
         return res
     })
         .catch((err) => {
@@ -496,23 +529,30 @@ function deleteBookTimeFn(time: string, index: number, version: number) {
         time: time,
 
     }).then((res) => {
-        if (version == 1) {
-            timeListAll.timeListOne.splice(index, 1)
-        } else if (version == 2) {
-            timeListAll.timeListTwo.splice(index, 1)
-        } else if (version == 3) {
-            timeListAll.timeListThree.splice(index, 1)
-        } else if (version == 4) {
-            timeListAll.timeListFour.splice(index, 1)
-        }
-        timeListAll.timeListOne.splice(index, 1)
-        const sucessDelete = () => {
+        if (res.resultStatus != 200) {
             ElMessage({
-                message: '删除预约时间成功',
-                type: 'success',
+                message: `${res.resultIns}`,
+                type: 'error'
             })
+        } else {
+            if (version == 1) {
+                timeListAll.timeListOne.splice(index, 1)
+            } else if (version == 2) {
+                timeListAll.timeListTwo.splice(index, 1)
+            } else if (version == 3) {
+                timeListAll.timeListThree.splice(index, 1)
+            } else if (version == 4) {
+                timeListAll.timeListFour.splice(index, 1)
+            }
+            const sucessDelete = () => {
+                ElMessage({
+                    message: '删除预约时间成功',
+                    type: 'success',
+                })
+            }
+            sucessDelete()
         }
-        sucessDelete()
+
 
         return res
     })
@@ -576,6 +616,19 @@ function deleteBookTimeFn(time: string, index: number, version: number) {
 
 .elCollapseItem {
     margin-left: 36px;
+}
+
+.Font16 {
+    font-size: 16px;
+}
+
+.marginBottom10 {
+    margin-bottom: 10px;
+}
+
+.ChangeNumber {
+    display: flex;
+    align-items: center;
 }
 </style>
 <style>
