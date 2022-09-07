@@ -15,7 +15,6 @@
   // 发送请求并把获取到的数据存入vuex
   // let data
   getAllUserInfo().then((res) => {
-    console.log(res);
     store.commit("SetSighupInfo",res.obj) 
     
     // 设置一个对象管理更改用户进度（淘汰or通过）
@@ -27,9 +26,7 @@
     store.commit("addUserSetting",value)
   }
   })
-  // console.log(data);  
-  
-  // console.log(data);
+ 
   
   
   

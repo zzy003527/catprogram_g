@@ -70,14 +70,14 @@ const logoutSend = () => {
 
 <style>
 #tabbox {
-  position: fixed;
-  left: -25px;
-  top: 0;
-  height: 39px;
-  width: 1550px;
-  background-color: #f5f5f5;
-  padding-left: 25px;
-  z-index: 100;
+    position: fixed;
+    left: -25px;
+    top: 0;
+    height: 39px;
+    width: 100%;
+    background-color: #f5f5f5;
+    padding-left: 25px;
+    z-index: 100;
 }
 
 .logoutButton {

@@ -32,17 +32,17 @@ const getAllUserInfo = async () => {
 }
 // 管理端批量处理用户通过或淘汰接口
 const updateUserStatus = async (params) => {
-    return await request.post(httpUrl.updateUserStatus, qs.stringify(params))
+    return await request.post(httpUrl.updateUserStatus, params)
 }
 
 // 评论和评分接口
 const review = async (params) => {
-    return await request.post(httpUrl.review, qs.stringify(params))
+    return await request.post(httpUrl.review, params)
 }
 
 // 修改或删除评论和评分接口
 const updateAssessment = async (params) => {
-    return await request.post(httpUrl.updateAssessment, qs.stringify(params))
+    return await request.post(httpUrl.updateAssessment, params)
 }
 
 //退出登录接口
