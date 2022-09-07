@@ -24,9 +24,25 @@ const login = async (params) => {
 
 
 //管理端获取所有报名用户接口
-const getAllUserInfo = async () => {
-    return await request.get(httpUrl.getAllUserInfo)
+const getAllUserInfo = async (params) => {
+    return await request.get(httpUrl.getAllUserInfo,params)
 }
+
+// 获取管理端状态接口
+const getStageCode = async() => {
+    return await request.get(httpUrl.getStageCode)
+}
+
+//模糊查询接口
+const dimSearch = async (params) => {
+    return await request.post(httpUrl.dimSearch, params)
+}
+
+// 修改管理端状态接口(进入下一阶段)
+const changeStage = async (params) => {
+    return await request.get(httpUrl.changeStage,params)
+}
+
 // 管理端批量处理用户通过或淘汰接口
 const updateUserStatus = async (params) => {
     return await request.post(httpUrl.updateUserStatus, params)
@@ -64,6 +80,9 @@ export {
     login,
     handleError,
     getAllUserInfo,
+    getStageCode,
+    dimSearch,
+    changeStage,
     updateUserStatus,
     review,
     updateAssessment,

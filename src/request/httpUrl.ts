@@ -3,6 +3,7 @@
 
 const config = {
   rootUrl: "http://106.52.239.206:8080",
+  // rootUrl: "http://127.0.0.1:4523/m1/1473415-0-default"
 };
 
 const httpApi = {
@@ -10,6 +11,9 @@ const httpApi = {
   banner: config.rootUrl + 'home/banner', // banner
   login: config.rootUrl + '/cat/user/login', // 用户登录
   getAllUserInfo: config.rootUrl + '/cat/userInfo/getAllCandidate',   //管理端查询用户所有报名信息接口
+  getStageCode: config.rootUrl + "/cat/userInfo/getStageCode",          //获取管理端状态接口
+  dimSearch: config.rootUrl + "/cat/userInfo/dimSearch",          //模糊查询接口
+  changeStage: config.rootUrl + "/cat/userInfo/changeStage",           //修改管理端状态接口
   updateUserStatus: config.rootUrl + '/cat/userInfo/updateUserStatus',      //管理端批量处理用户通过或淘汰
   review: config.rootUrl + '/cat/userInfo/review',                //评论和评分接口
   updateAssessment: config.rootUrl + '/cat/userInfo/updateAssessment',     //修改和删除评论和评分接口

@@ -24,21 +24,39 @@ interface UserInfoType {
 }
 const UserInfo: UserInfoType = props.data as UserInfoType
 
+
 // 通过考核状态码判断是否被淘汰
-let beout = ref('笔试中')
-if(UserInfo.testStatus === 0) {
-    beout.value = '淘汰'
-} else if(UserInfo.testStatus === 1) {
-    beout.value = '笔试中'
-} else if(UserInfo.testStatus === 2) {
-    beout.value = '面试中'
-} else if(UserInfo.testStatus === 3) {
-    beout.value = '一轮中'
-} else if(UserInfo.testStatus === 4) {
-    beout.value = '二轮中'
-} else if(UserInfo.testStatus === 5){
-    beout.value = '成功通过'
+let beout = ref('已报名')
+// 获取状态码后两位
+let testCode = UserInfo.testStatus + ''
+let lastTwo = testCode.slice(1,testCode.length)
+
+// 通过判断管理端状态码来修改显示数据头两位
+if(store.state.StageCode === 2) {
+    beout.value = "笔试"
+} else if(store.state.StageCode === 3) {
+    beout.value = "面试"
+} else if(store.state.StageCode === 4) {
+    beout.value = "一轮"
+} else if(store.state.StageCode === 5) {
+    beout.value = "二轮"
+} else if(store.state.StageCode === 6) {
+    beout.value = "成功通过"
 }
+
+// 只有当管理端状态不为1或6时才补全beout后面
+if(store.state.StageCode !== 1 && store.state.StageCode !== 6) {
+    // 通过判断状态码后两位补全beout
+if(lastTwo === '00') {
+    beout.value = beout.value + "中"
+} else if(lastTwo === "01") {
+    beout.value = beout.value + "通过"
+} else if(lastTwo === "02") {
+    beout.value = beout.value + "淘汰"
+}
+
+}
+
 // 判断组别
 let theGroup = ref('前端')
 if(UserInfo.group === false) {
@@ -62,6 +80,7 @@ function valuechange(checkvalue) {
 
 function detailButtonClick() {
     store.commit("ConfigNowstudentId",UserInfo.studentId)
+    localStorage.setItem("NowstudentId",UserInfo.studentId)
 }
 
 </script>

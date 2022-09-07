@@ -29,6 +29,9 @@ module.exports = defineConfig({
         'plugin:jest/recommended'
     ],
     rules: {
+        'vue/no-parsing-error': [2, {
+            'x-invalid-end-tag': false
+        }], // 关闭对iview end-tag 检查
         'vue/script-setup-uses-vars': 'error',
         '@typescript-eslint/ban-ts-ignore': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
@@ -57,7 +60,6 @@ module.exports = defineConfig({
             }
         ],
         'space-before-function-paren': 'off',
-
         'vue/attributes-order': 'off',
         'vue/one-component-per-file': 'off',
         'vue/html-closing-bracket-newline': 'off',
@@ -66,6 +68,13 @@ module.exports = defineConfig({
         'vue/singleline-html-element-content-newline': 'off',
         'vue/attribute-hyphenation': 'off',
         'vue/require-default-prop': 'off',
+        "comma-dangle": ["error", {
+            "arrays": "never",
+            "objects": "never",
+            "imports": "never",
+            "exports": "never",
+            "functions": "never"
+        }],
         'vue/html-self-closing': [
             'error',
             {

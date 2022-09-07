@@ -3,14 +3,14 @@
 import { useStore } from 'vuex'
 import { ref,reactive,computed } from 'vue'
 import { ElMessage, ElMessageBox,ElNotification } from 'element-plus'
-import { updateAssessment } from '../../../request/requestApi'
+import { updateAssessment,getAllUserInfo } from '../../../request/requestApi'
 
 // 用useStore方法获取到vuex的store对象
 let store = useStore()
 
 // 节流函数
+let throttleTimer
 const debounce = (fn: Function, delay: number) :Function => {
-    let throttleTimer
   return (...args: unknown[]) => {
     if (throttleTimer) {
       return;
@@ -20,6 +20,23 @@ const debounce = (fn: Function, delay: number) :Function => {
       throttleTimer = null;
     }, delay);
   }
+}
+
+
+// 重新获得数据的函数
+function resetPage() {
+   // 完成后重新获取数据渲染
+   getAllUserInfo({testStatus: store.state.StageCode}).then((res)=> {
+                    store.commit("SetSighupInfo",res.obj) 
+                    // 设置一个对象管理更改用户进度（淘汰or通过）
+                    for(let i = 0;i < res.obj.length;i++) {
+                      let value = {
+                        key: res.obj[i].studentId,
+                        thevalue: false
+                      }
+                      store.commit("addUserSetting",value)
+                    }
+                })
 }
 
 // 接收父组件传来的数据
@@ -37,6 +54,7 @@ interface UserTestInfoType {
     testId: number
 }
 const UserTestInfo: UserTestInfoType = props.info as UserTestInfoType
+
 
 // 获取token（因为有可能在session中或者在local中）
   let token = localStorage.getItem("token")
@@ -82,7 +100,7 @@ const deleteReview = () => {
         grade: UserTestInfo.grade,
         review: UserTestInfo.review,
         studentId: UserTestInfo.studentId,
-        testId: UserTestInfo.testId,
+        testId: store.state.StageCode,
         id: UserTestInfo.id,
         flag: false
       }
@@ -94,6 +112,7 @@ const deleteReview = () => {
             message: '删除失败',
           })
         } else {
+          resetPage()
           // 弹出框提示
           ElMessage({
             type: 'success',
@@ -133,7 +152,7 @@ const configReview = () => {
         grade: form.grade * 2,
         review: form.review,
         studentId: UserTestInfo.studentId,
-        testId: UserTestInfo.testId,
+        testId: store.state.StageCode - 1,
         id: UserTestInfo.id,
         flag: true
       }
@@ -145,6 +164,7 @@ const configReview = () => {
             message: '修改失败',
           })
         } else {
+          resetPage()
           // 弹出框提示
           ElMessage({
             type: 'success',
@@ -179,7 +199,7 @@ const configReviewSend = () => {
     <div>评分: {{ UserTestInfo.grade }}</div>
     <el-button type="warning" round class="testinfobuttonOne" @click="dialogFormVisible = true" v-if="displayButton">修改</el-button>
     <el-button type="danger" round class="testinfobuttonTwo" @click="deleteReviewSend" v-if="displayButton">删除</el-button>
-    <el-dialog v-model="dialogFormVisible" title="修改评价和评分">
+  <el-dialog v-model="dialogFormVisible" title="修改评价和评分">
     <el-form :model="form" label-width="120px">
     <el-form-item label="填写评价">
       <el-input v-model="form.review" type="textarea" />

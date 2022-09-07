@@ -21,6 +21,7 @@ const UserDetailInfo = store.getters.RenderSighup.filter((val) => {
 const router: Router = useRouter()
 // 页头返回前一页的事件
 const goBack = () => {
+    localStorage.removeItem("NowstudentId")
     // 将管理员是否写评论的状态全部置为false
     store.commit("ConfigAdminTest1",false)
     store.commit("ConfigAdminTest2",false)
