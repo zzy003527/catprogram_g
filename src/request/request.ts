@@ -4,12 +4,12 @@ import { Get, Post } from './types'; // 接口泛型
 
 // 封装 get 方法，类型为Get
 const get: Get = async (url, config) => {
-    const response = await service.get(url, { ...config});
+    const response = await service.get(url, { ...config });
     return response.data;
 };
 
 const post: Post = async (url, params, config) => {
-    const response = await service.post(url, params, {...config});
+    const response = await service.post(url, params, { ...config });
     return response.data;
 };
 
