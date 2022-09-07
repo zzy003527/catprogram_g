@@ -123,6 +123,8 @@ const logoutSend = () => {
           localStorage.removeItem("adminId")
           sessionStorage.removeItem("token")
           localStorage.removeItem("configStageCode")
+          localStorage.removeItem("refreshToken")
+          sessionStorage.clear()
           // 弹出框表示成功退出
           ElMessage({
             type: 'success',
