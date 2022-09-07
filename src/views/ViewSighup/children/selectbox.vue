@@ -7,21 +7,6 @@ import { dimSearch,getAllUserInfo } from "../../../request/requestApi"
 // 获取vuex的store
 let store = useStore()
 
-
-// 节流函数
-// let throttleTimer
-// const debounce = (fn: Function, delay: number) :Function => {
-//   return (...args: unknown[]) => {
-//     if (throttleTimer) {
-//       return;
-//     }
-//     throttleTimer = setTimeout(() => {
-//       fn.apply(this, args);
-//       throttleTimer = null;
-//     }, delay);
-//   }
-// }
-
 // 学院筛选下拉框的数据
 const InstituteOptions = [
   {
@@ -77,7 +62,6 @@ const InstituteOptions = [
     label: '集成电路学院',
   }
 ]
-// const InstituteValue = ref('') 
 
 // 前后端选择方向数据
 const DirectionOptions = [
@@ -111,11 +95,6 @@ const IsoutOptions = [
     label: '否',
   }
   ]
-// const IsoutValue = ref('')
-
-// 搜索框的数据
-// const StudentidInput = ref('')
-// const NameInput = ref('')
 
 // 一个修改筛选条件后重新获取数据的方法
 function reGetInfo() {
@@ -170,11 +149,6 @@ function reGetInfo() {
         }
       })
   }
-  // console.log(store.state.InstituteValue);
-  // console.log(store.state.DerectionValue);
-  // console.log(store.state.IsoutValue);
-  // console.log(store.state.StudentidInput);
-  // console.log(store.state.NameInput);
 }
 
 
@@ -184,16 +158,6 @@ function InstituteValueChange(val) {
   // 将当前的值传到vuex
   store.commit("ConfigInstituteValue",val)
   reGetInfo()
-  // // 将其他四个的值在vuex置空(为了每次只能有一个条件搜索)
-  // store.commit("ConfigDerectionValue",'')
-  // store.commit("ConfigIsoutValue",'')
-  // store.commit("ConfigStudentidInput",'')
-  // store.commit("ConfigNameInput",'')
-  // // 在页面上将其他四个置空
-  // DerectionValue.value = ''
-  // IsoutValue.value = ''
-  // StudentidInput.value = ''
-  // NameInput.value = ''
 }
 
 function DerectionValueChange(val) {
@@ -209,70 +173,22 @@ function DerectionValueChange(val) {
     store.commit("ConfigDerectionValue",'')
   }
   reGetInfo()
-  // // 将其他四个的值在vuex置空(为了每次只能有一个条件搜索)
-  // store.commit("ConfigInstituteValue",'')
-  // store.commit("ConfigIsoutValue",'')
-  // store.commit("ConfigStudentidInput",'')
-  // store.commit("ConfigNameInput",'')
-  // // 在页面上将其他四个置空
-  // InstituteValue.value = ''
-  // IsoutValue.value = ''
-  // StudentidInput.value = ''
-  // NameInput.value = ''
 }
 
 function IsoutValueChange(val) {
   store.commit("ConfigIsoutValue",val)
-  // 将其他四个的值在vuex置空(为了每次只能有一个条件搜索)
-  // store.commit("ConfigInstituteValue",'')
-  // store.commit("ConfigDerectionValue",'')
-  // store.commit("ConfigStudentidInput",'')
-  // store.commit("ConfigNameInput",'')
-  // // 在页面上将其他四个置空
-  // InstituteValue.value = ''
-  // DerectionValue.value = ''
-  // StudentidInput.value = ''
-  // NameInput.value = ''
 }
 
 function StudentidInputChange(val) {
   store.commit("ConfigStudentidInput",val)
   reGetInfo()
-  // 将其他四个的值在vuex置空(为了每次只能有一个条件搜索)
-  // store.commit("ConfigInstituteValue",'')
-  // store.commit("ConfigDerectionValue",'')
-  // store.commit("ConfigIsoutValue",'')
-  // store.commit("ConfigNameInput",'')
-  // // 在页面上将其他四个置空
-  // InstituteValue.value = ''
-  // DerectionValue.value = ''
-  // IsoutValue.value = ''
-  // NameInput.value = ''
 }
 
 function NameInputChange(val) {
   store.commit("ConfigNameInput",val)
   reGetInfo()
-  // 将其他四个的值在vuex置空(为了每次只能有一个条件搜索)
-  // store.commit("ConfigInstituteValue",'')
-  // store.commit("ConfigDerectionValue",'')
-  // store.commit("ConfigIsoutValue",'')
-  // store.commit("ConfigStudentidInput",'')
-  // // 在页面上将其他四个置空
-  // InstituteValue.value = ''
-  // DerectionValue.value = ''
-  // IsoutValue.value = ''
-  // StudentidInput.value = ''
 }
 
-// const debounceStudentidInputChange = (val) => {
-//   console.log(val);
-  
-//   debounce(StudentidInputChange, 1000)();
-// };
-// const debounceNameInputChange = () => {
-//   debounce(NameInputChange, 500)();
-// };
 
 </script>
 

@@ -24,8 +24,6 @@
     }
       // 发送请求并把获取到的数据存入vuex
       getAllUserInfo({params:params}).then((res) => {
-        console.log(res);
-        
         store.commit("SetSighupInfo",res.obj) 
     
         // 设置一个对象管理更改用户进度（淘汰or通过）

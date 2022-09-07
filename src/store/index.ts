@@ -58,39 +58,6 @@ export default createStore({
   getters: {
     // 渲染到查看报名人数页面的数据
     RenderSighup(state) {
-      // if (state.InstituteValue) {
-      //   // 如果学院信息数据存在,就按照学院信息筛选
-      //   return state.AllSighupInfo.filter((val) => {
-      //     return val.institute === state.InstituteValue
-      //   })
-      // } else if (typeof (state.DerectionValue) !== 'string') {   //因为返回的前端后台信息是boolean，所以要通过这个判断信息是否存在
-      //   return state.AllSighupInfo.filter((val) => {
-      //     // 如果是boolean，那么判断筛选
-      //     if (typeof (state.DerectionValue) !== 'string') {
-      //       return val.group === state.DerectionValue
-      //     } else {
-      //       // 如果不是，证明没有筛选条件，返回所有数据（因为所有数据必定有institute）
-      //       return val.institute !== ''
-      //     }
-      //   })
-      // } else if (state.IsoutValue) {
-      //   return state.AllSighupInfo.filter((val) => {
-      //     // 如果筛选条件为是，那么返回状态码为0的，表示淘汰
-      //     if (state.IsoutValue === '是') {
-      //       return val.testStatus === 0
-      //     } else {   //否则返回状态码不为0的
-      //       return val.testStatus !== 0
-      //     }
-      //   })
-      // } else if (state.StudentidInput) {     //判断是否有筛选学号或姓名的数据，如果有，返回符合条件的数据
-      //   return state.AllSighupInfo.filter((val) => {
-      //     return val.studentId === state.StudentidInput
-      //   })
-      // } else if (state.NameInput) {
-      //   return state.AllSighupInfo.filter((val) => {
-      //     return val.username === state.NameInput
-      //   })
-      // }
       if(state.AllSighupInfo) {
         if (state.IsoutValue) {
           return state.AllSighupInfo.filter((val) => {

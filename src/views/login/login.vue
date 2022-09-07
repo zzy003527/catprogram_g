@@ -27,7 +27,7 @@
 import { ref, reactive } from 'vue'
 import type { FormInstance } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { login, handleError } from '../../request/requestApi'
+import { login, handleError,logout } from '../../request/requestApi'
 import store from '../../store/index';
 import { useRouter } from 'vue-router'
 const router = useRouter()
@@ -87,6 +87,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
                     failLogin(res.resultIns)
                 }
                 else {
+                    //根据返回信息判断当前登录用户的权限false=普通用户 true=管理员
+                    //如果为普通管理员就显示自定义信息
+                    if(res.map.power == false){
+                        localStorage.setItem('token', `${res.obj}`);
+                        logout()
+                        localStorage.removeItem('token');
+                        failLogin("非管理员账号")
+                        return;
+                    }
                     sucessLogin()
                     store.state.dialogTableVisible = false
                     localStorage.setItem('adminId', res.id);

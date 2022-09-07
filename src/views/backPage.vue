@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import tabbox from "./ViewSighup/tabbox.vue"
-  // import {defineAsyncComponent} from 'vue'
-  // const Child = defineAsyncComponent(()=> import('./components/Child.vue'))
 </script>
   
   <template>

@@ -84,23 +84,10 @@ for (let [x, y] of Object.entries(store.state.Whethercheck)) {
             testStatus = testStatus + '02'
           }
             // 声明要发送的数据
-            console.log(testStatus)
             let thevalue = {
                 key: x,
                 value: testStatus
                }
-            
-            // if(chooseValue.value === '通过') {
-            //     thevalue = {
-            //     key: x,
-            //     value: true
-            //    }
-            // } else if(chooseValue.value === '淘汰') {
-            //     thevalue = {
-            //     key: x,
-            //     value: false
-            //    }
-            // }
             // 只有在有'淘汰'或者'通过'的时候才存入数据
             if(store.state.chooseValue) {
                 store.commit("addSendUserInfo",thevalue)
@@ -136,10 +123,7 @@ for (let [x, y] of Object.entries(store.state.Whethercheck)) {
     }
     if(store.state.chooseValue && store.state.StageCode !== 1 && store.state.StageCode !== 6 && flag1) {
         const params = store.state.SendUserInfo
-        updateUserStatus(params).then((res) => {
-          console.log(res);
-          
-              
+        updateUserStatus(params).then((res) => {        
           if(res.resultStatus !== "200") {
              // 弹出框表示失败
              failLogin(res.resultIns)

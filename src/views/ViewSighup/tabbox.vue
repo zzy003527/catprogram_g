@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { logout,changeStage,getAllUserInfo } from "../../request/requestApi"
+import { logout,changeStage,getAllUserInfo,getStageCode } from "../../request/requestApi"
 
 // 引入所需方法
 import {ref} from 'vue'
@@ -35,6 +35,7 @@ const router: Router = useRouter()
 const failLogin = (msg: string) => {
   ElMessage.error(`${msg}`)
 }
+
 // 在点击按钮之后的重置函数
 function resetPage() {
     // 发送之后将选择框置空
@@ -56,8 +57,19 @@ function resetPage() {
         store.commit("addUserSetting",value)
     }
     // 完成后重新获取数据渲染
-    getAllUserInfo({testStatus: store.state.StageCode}).then((res)=> {
+    getStageCode().then((res)=> {
+    // 将管理端状态码存入vuex
+    store.commit("configStageCode",res.obj)
+    localStorage.setItem("configStageCode",res.obj)
+    const params = {
+      testCode: res.obj
+    }
+      // 发送请求并把获取到的数据存入vuex
+      getAllUserInfo({params:params}).then((res) => {
+        console.log(res);
+        
         store.commit("SetSighupInfo",res.obj) 
+    
         // 设置一个对象管理更改用户进度（淘汰or通过）
         for(let i = 0;i < res.obj.length;i++) {
           let value = {
@@ -66,7 +78,8 @@ function resetPage() {
           }
           store.commit("addUserSetting",value)
         }
-    })
+      })
+  })
 }
 
 
@@ -80,7 +93,7 @@ if(localStorage.getItem("configStageCode") === "2") {
   Stage.value = "一轮阶段"
 } else if(localStorage.getItem("configStageCode") === "5") {
   Stage.value = "二轮阶段"
-} else if(localStorage.getItem("configStageCode") === "") {
+} else {
   Stage.value = "完全通过"
 }
 
