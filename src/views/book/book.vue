@@ -535,13 +535,13 @@ function deleteBookTimeFn(time: string, index: number, version: number) {
                 type: 'error'
             })
         } else {
-            if (version == 1) {
+            if (version == 2) {
                 timeListAll.timeListOne.splice(index, 1)
-            } else if (version == 2) {
-                timeListAll.timeListTwo.splice(index, 1)
             } else if (version == 3) {
-                timeListAll.timeListThree.splice(index, 1)
+                timeListAll.timeListTwo.splice(index, 1)
             } else if (version == 4) {
+                timeListAll.timeListThree.splice(index, 1)
+            } else if (version == 5) {
                 timeListAll.timeListFour.splice(index, 1)
             }
             const sucessDelete = () => {
