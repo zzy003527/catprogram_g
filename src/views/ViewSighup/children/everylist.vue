@@ -26,10 +26,17 @@ const UserInfo: UserInfoType = props.data as UserInfoType
 
 
 // 通过考核状态码判断是否被淘汰
-let beout = ref('已报名')
+let beout = ref('未报名')
+
 // 获取状态码后两位
 let testCode = UserInfo.testStatus + ''
 let lastTwo = testCode.slice(1,testCode.length)
+
+if(testCode === '101') {
+    beout.value = '已报名'
+} else if(testCode === '102') {
+    beout.value = '报名淘汰'
+}
 
 // 通过判断管理端状态码来修改显示数据头两位
 if(store.state.StageCode === 2) {
@@ -88,10 +95,10 @@ function detailButtonClick() {
 <template>
 <div id="everylist">
     <el-row class="everylistbox">
-    <el-col :span="2"><div class="grid-content ep-bg-purple" />{{ UserInfo.username }}</el-col>
+    <el-col :span="3"><div class="grid-content ep-bg-purple" />{{ UserInfo.username }}</el-col>
     <el-col :span="5"><div class="grid-content ep-bg-purple-light" />{{ UserInfo.institute }}</el-col>
     <el-col :span="5"><div class="grid-content ep-bg-purple" />{{ UserInfo.major }}</el-col>
-    <el-col :span="3"><div class="grid-content ep-bg-purple-light" />{{ theGroup }}</el-col>
+    <el-col :span="2"><div class="grid-content ep-bg-purple-light" />{{ theGroup }}</el-col>
     <el-col :span="3"><div class="grid-content ep-bg-purple" />{{ beout }}</el-col>
     <el-col :span="3"><div class="grid-content ep-bg-purple-light" />
     <el-checkbox v-model="checked1" label="勾选" size="large" border @change="valuechange" class="checkbutton"/>

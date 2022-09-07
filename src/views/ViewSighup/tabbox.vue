@@ -93,7 +93,7 @@ if(localStorage.getItem("configStageCode") === "2") {
   Stage.value = "一轮阶段"
 } else if(localStorage.getItem("configStageCode") === "5") {
   Stage.value = "二轮阶段"
-} else {
+} else if(localStorage.getItem("configStageCode") === "6"){
   Stage.value = "完全通过"
 }
 

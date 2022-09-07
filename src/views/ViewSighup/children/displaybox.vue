@@ -2,10 +2,10 @@
   <div id="displaybox">
     <div class="boxhead">
          <el-row class="everylistbox">
-            <el-col :span="2"><div class="grid-content ep-bg-purple"></div>姓名</el-col>
+            <el-col :span="3"><div class="grid-content ep-bg-purple"></div>姓名</el-col>
             <el-col :span="5"><div class="grid-content ep-bg-purple-light"></div>学院</el-col>
             <el-col :span="5"><div class="grid-content ep-bg-purple"></div>专业</el-col>
-            <el-col :span="3"><div class="grid-content ep-bg-purple-light"></div>方向</el-col>
+            <el-col :span="2"><div class="grid-content ep-bg-purple-light"></div>方向</el-col>
             <el-col :span="3"><div class="grid-content ep-bg-purple"></div>面试进度</el-col>
             <el-col :span="3"><div class="grid-content ep-bg-purple-light"></div>勾选进行进度更改</el-col>
             <el-col :span="3"><div class="grid-content ep-bg-purple-light"></div>详细信息</el-col>
