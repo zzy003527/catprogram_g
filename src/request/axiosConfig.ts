@@ -8,8 +8,8 @@
  */
 //这是axios配置的ts文件 
 
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-// import axios from "axios"
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { refreshToken } from "./requestApi"
 
 // 获取token
 let token = localStorage.getItem("token")
@@ -41,11 +41,135 @@ service.interceptors.request.use((config: AxiosRequestConfig) => {
         return Promise.reject(err)
     },
 )
+let isNotRefresh = true;
+let requests: Array<any> = [];
 
+function getFreshToken() {
+    return localStorage.getItem('refreshToken') == null ? sessionStorage.getItem('refreshToken') : localStorage.getItem('refreshToken');
+}
 
-// //添加响应拦截器
+// function getToken(){
+//     return localStorage.getItem('token') == null?sessionStorage.getItem('token'):localStorage.getItem('token');
+// }
+
+//清除localstorage sessionstorage数据 返回登录页面
+function backToLogin() {
+    sessionStorage.clear();
+    localStorage.clear();
+    //重定向到初始页面
+    window.location.href = "/";
+}
+
+//更新本地token和refreshToken
+function resetTokenAndRefreshToken(newToken, refreshToken) {
+    if (localStorage.getItem('refreshToken') != null) {
+        localStorage.setItem('token', newToken);
+        localStorage.setItem('refreshToken', refreshToken);
+    } else if (sessionStorage.getItem('refreshToken') != null) {
+        sessionStorage.setItem('token', newToken);
+        sessionStorage.setItem('refreshToken', refreshToken);
+    }
+
+}
+
+//添加响应拦截器
 service.interceptors.response.use((response: AxiosResponse) => {
-    return response
+
+    const data = response;
+    const status = data.data.resultStatus;
+    const config = response.config;
+    // let text = '';
+    switch (status) {
+        //token过期,需要刷新token
+        case '402':
+            //有refreshToken
+            if (getFreshToken() != null) {
+                //没有在刷新token
+                if (isNotRefresh) {
+                    isNotRefresh = false;
+                    return refreshToken(getFreshToken()).then((res) => {
+                        if (res.resultStatus != '200') {
+                            //刷新token失败，需要重新登录
+                            console.log(res.resultIns);
+                            //清除localstorage sessionstorage 返回登录页面
+                            backToLogin();
+                            //跳回登录页面
+                        } else {
+                            //更新本地的token和refreshToken
+                            console.log('刷新token,refreshToken');
+                            //更新本地token和refreshToken
+                            // localStorage.setItem('token',res.obj);
+                            // localStorage.setItem('refreshToken',res.map.refreshToken);
+                            resetTokenAndRefreshToken(res.obj, res.map.refreshToken);
+                            //执行requests队列中的请求
+                            //更新等待请求队列的token
+                            response.config.headers!.token = (localStorage.getItem('token') == null ? sessionStorage.getItem('token') : localStorage.getItem('token')) as string | number | boolean;
+                            //执行等待队列的请求
+                            requests.forEach(run => run())
+                            //requests.forEach(a=>a(res.obj));
+                            //将请求队列置空
+                            requests = [];
+                            //重新执行当前未执行成功的请求并返回
+                            console.log('重新发送未执行成功的请求')
+                            return axios(config);
+                        }
+                    }).catch(() => {
+                        console.log('报错？？？？');
+                        //清除localstorage sessionstorage 返回登录页面
+                        // backToLogin();
+                    }).finally(() => {
+                        //刷新结束，更改标识
+                        isNotRefresh = true;
+                    })
+                    //正在刷新token,拒绝请求加入队列，等到刷新成功token后执行
+                } else {
+                    return new Promise(resolve => {
+                        requests.push(() => {
+                            config.headers!.token = (localStorage.getItem('token') == null ? sessionStorage.getItem('token') : localStorage.getItem('token')) as string | number | boolean;
+                            resolve(axios(config));
+                        })
+                    })
+                }
+            } else {
+                //找不到refreshToken，无法刷新，重新登录
+                //跳回登录页面
+                //清除localstorage sessionstorage 返回登录页面
+                backToLogin();
+                console.log("token过期,需要重新登录");
+            }
+            break
+        //未登录
+        case '406':
+            console.log('需要重新登录')
+            //清除localstorage sessionstorage 返回登录页面
+            backToLogin();
+            break
+    }
+
+    return data
+
+    // // 判断是否需要Token刷新
+    // if(response.data.resultStatus === '406') {
+    //     alert("请重新登陆")
+    // }
+
+    // //需要刷新token
+    // if (response.data.resultStatus === "402") {
+    //     axios.defaults.headers.common['refreshToken'] = localStorage.getItem("refreshToken") as string | number | boolean;
+    //     // 刷新Token（可以使用同步操作）
+
+    //     console.log(localStorage.getItem("refreshToken"));
+    //         // 将新的Token设置到axios的默认请求头
+    //         axios.defaults.headers.common['token'] = localStorage.getItem("token") as string | number | boolean;
+    //         // 将新的Token设置到重发的请求头
+    //         response.config.headers!.token = localStorage.getItem("token") as string | number | boolean;
+
+    //     // 请求重发
+    //     return axios.request(response.config);
+    //     //return
+    // }
+
+    //return response
 })
 
 export default service;
