@@ -7,6 +7,7 @@ const config = {
 };
 
 const httpApi = {
+  refreshToken: config.rootUrl + '/cat/user/refreshToken',
   // 测试接口
   banner: config.rootUrl + 'home/banner', // banner
   login: config.rootUrl + '/cat/user/login', // 用户登录

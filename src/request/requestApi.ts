@@ -17,6 +17,9 @@ const handleError = (err: any) => {
     throw err;
 }
 // ---------------------------------------------------------------------------------------------------------------------------------------
+const refreshToken = async (params) => {
+    return await request.post(httpUrl.refreshToken, (params))
+}
 // 用户登录
 const login = async (params) => {
     return await request.post<string>(httpUrl.login, params);
@@ -90,5 +93,6 @@ export {
     book,
     addTime,
     changeNumRequest,
-    deleteTime
+    deleteTime,
+    refreshToken
 }

@@ -5,7 +5,7 @@
                 <el-collapse v-model="activeNames" @change="handleChange">
                     <el-collapse-item title="笔试" name="1">
                         <div class="addBookTime">
-                            <el-button type="primary" @click="clickAddTimeBtn(1)">添加预约时间
+                            <el-button type="primary" @click="clickAddTimeBtn(2)">添加预约时间
                             </el-button>
                         </div>
                         <div class="demo-collapse-two">
@@ -17,7 +17,7 @@
                                         <div>{{ timeObj.time }}</div>
                                         <div class="elCollapseItem">
                                             <el-button type="primary" @click.stop.prevent="() => { }"
-                                                @click="deleteBookTimeFn(timeObj.time, index, 1)">删除该预约时间</el-button>
+                                                @click="deleteBookTimeFn(timeObj.time, index, 2)">删除该预约时间</el-button>
                                         </div>
                                     </template>
                                     <div class="changeBookNum">
@@ -50,7 +50,7 @@
                     </el-collapse-item>
                     <el-collapse-item title="面试" name="2">
                         <div class="addBookTime">
-                            <el-button type="primary" @click="clickAddTimeBtn(2)">添加预约时间
+                            <el-button type="primary" @click="clickAddTimeBtn(3)">添加预约时间
                             </el-button>
                         </div>
                         <div class="demo-collapse-two">
@@ -62,7 +62,7 @@
                                         <div>{{ timeObj.time }}</div>
                                         <div class="elCollapseItem">
                                             <el-button type="primary" @click.stop.prevent="() => { }"
-                                                @click="deleteBookTimeFn(timeObj.time, index, 2)">删除该预约时间</el-button>
+                                                @click="deleteBookTimeFn(timeObj.time, index, 3)">删除该预约时间</el-button>
                                         </div>
                                     </template>
                                     <div class="changeBookNum">
@@ -96,7 +96,7 @@
                     </el-collapse-item>
                     <el-collapse-item title="一轮考核" name="3">
                         <div class="addBookTime">
-                            <el-button type="primary" @click="clickAddTimeBtn(3)">添加预约时间
+                            <el-button type="primary" @click="clickAddTimeBtn(4)">添加预约时间
                             </el-button>
                         </div>
                         <div class="demo-collapse-two">
@@ -108,7 +108,7 @@
                                         <div>{{ timeObj.time }}</div>
                                         <div class="elCollapseItem">
                                             <el-button type="primary" @click.stop.prevent="() => { }"
-                                                @click="deleteBookTimeFn(timeObj.time, index, 3)">删除该预约时间</el-button>
+                                                @click="deleteBookTimeFn(timeObj.time, index, 4)">删除该预约时间</el-button>
                                         </div>
                                     </template>
                                     <div class="changeBookNum">
@@ -141,7 +141,7 @@
                     </el-collapse-item>
                     <el-collapse-item title="二轮考核" name="4">
                         <div class="addBookTime">
-                            <el-button type="primary" @click="clickAddTimeBtn(4)">添加预约时间
+                            <el-button type="primary" @click="clickAddTimeBtn(5)">添加预约时间
                             </el-button>
                         </div>
                         <div class="demo-collapse-two">
@@ -153,7 +153,7 @@
                                         <div>{{ timeObj.time }}</div>
                                         <div class="elCollapseItem">
                                             <el-button type="primary" @click.stop.prevent="() => { }"
-                                                @click="deleteBookTimeFn(timeObj.time, index, 4)">删除该预约时间</el-button>
+                                                @click="deleteBookTimeFn(timeObj.time, index, 5)">删除该预约时间</el-button>
                                         </div>
                                     </template>
                                     <div class="changeBookNum">
@@ -409,13 +409,13 @@ function addTimeFn(version: number) {
                 number: 0,
                 availableNumber: addBookNum.value
             };
-            if (version == 1) {
+            if (version == 2) {
                 timeListAll.timeListOne.push(timeListItem)
-            } else if (version == 2) {
-                timeListAll.timeListTwo.push(timeListItem)
             } else if (version == 3) {
-                timeListAll.timeListThree.push(timeListItem)
+                timeListAll.timeListTwo.push(timeListItem)
             } else if (version == 4) {
+                timeListAll.timeListThree.push(timeListItem)
+            } else if (version == 5) {
                 timeListAll.timeListFour.push(timeListItem)
             }
             //添加完之后清空预约时间数据
